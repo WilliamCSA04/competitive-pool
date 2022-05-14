@@ -1,6 +1,8 @@
 import { ChakraProvider } from '@chakra-ui/react';
-import { Hydrate, QueryClientProvider } from 'react-query';
+import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import { theme } from '../styles';
+
+const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }) {
   return (
