@@ -1,5 +1,6 @@
 import { Flex, Image } from '@chakra-ui/react';
 import Head from 'next/head';
+import { dataHelper } from '../helpers';
 import { ddragonServices } from '../services';
 
 export default function Home({ champions, URL }) {
@@ -13,7 +14,7 @@ export default function Home({ champions, URL }) {
           return (
             <Image
               key={index}
-              src={`${URL.GET_LOADING}${champion.name}_0.jpg`}
+              src={`${URL.GET_LOADING}${champion.id}_0.jpg`}
               alt={champion.name}
             />
           );
