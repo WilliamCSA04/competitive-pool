@@ -1,4 +1,4 @@
-import { ChakraProvider } from '@chakra-ui/react';
+import { Box, ChakraProvider } from '@chakra-ui/react';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import { theme } from '../styles';
 
@@ -9,7 +9,9 @@ function MyApp({ Component, pageProps }) {
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
         <ChakraProvider theme={theme}>
-          <Component {...pageProps} />
+          <Box maxW="full">
+            <Component {...pageProps} />
+          </Box>
         </ChakraProvider>
       </Hydrate>
     </QueryClientProvider>
