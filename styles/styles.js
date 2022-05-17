@@ -1,4 +1,5 @@
 import { extendTheme } from '@chakra-ui/react';
+import { cardStyle } from '../components';
 
 const colors = {
   50: '#e4e4ff',
@@ -13,4 +14,8 @@ const colors = {
   900: '#000021',
 };
 
-export const theme = extendTheme({ colors });
+const components = {
+  Card: cardStyle,
+};
+
+export const theme = extendTheme({ colors, components });
