@@ -1,6 +1,5 @@
 import { Box, ChakraProvider } from '@chakra-ui/react';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
-import { DataProvider } from '../context/Data';
 import { theme } from '../styles';
 
 const queryClient = new QueryClient();
@@ -11,9 +10,7 @@ function MyApp({ Component, pageProps }) {
       <Hydrate state={pageProps.dehydratedState}>
         <ChakraProvider theme={theme}>
           <Box maxW="full">
-            <DataProvider>
-              <Component {...pageProps} />
-            </DataProvider>
+            <Component {...pageProps} />
           </Box>
         </ChakraProvider>
       </Hydrate>
