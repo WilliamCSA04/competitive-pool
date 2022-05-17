@@ -1,8 +1,10 @@
 import { Box, Flex, Image } from '@chakra-ui/react';
 import Head from 'next/head';
+import { useData } from '../hooks';
 import { ddragonServices } from '../services';
 
-export default function Home({ champions, URL }) {
+export default function Home({ URL }) {
+  const { champions } = useData();
   return (
     <div>
       <Head>
@@ -27,12 +29,8 @@ export default function Home({ champions, URL }) {
 }
 
 export async function getStaticProps() {
-  const { data: champions } = await (
-    await ddragonServices.getChampions()
-  ).json();
   return {
     props: {
-      champions,
       URL: ddragonServices.URL,
     },
   };
