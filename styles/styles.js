@@ -16,16 +16,8 @@ const colors = {
   },
 };
 
-const styles = {
-  global: {
-    '#outer-box': {
-      minHeight: '100vh',
-    },
-  },
-};
-
 const components = {
   Card: cardStyle,
 };
 
-export const theme = extendTheme({ colors, components, styles });
+export const theme = extendTheme({ colors, components });
