@@ -9,7 +9,7 @@ function MyApp({ Component, pageProps }) {
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
         <ChakraProvider theme={theme}>
-          <Box maxW="full">
+          <Box id="outer-box" maxW="full" h="100vh">
             <Component {...pageProps} />
           </Box>
         </ChakraProvider>
