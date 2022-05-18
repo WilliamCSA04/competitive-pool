@@ -16,8 +16,15 @@ const colors = {
   },
 };
 
+const Button = {
+  defaultProps: {
+    colorScheme: 'brand',
+  },
+};
+
 const components = {
   Card: cardStyle,
+  Button,
 };
 
 export const theme = extendTheme({ colors, components });
