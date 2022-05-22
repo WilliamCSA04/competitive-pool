@@ -1,19 +1,25 @@
-import { Box, Flex, Image } from '@chakra-ui/react';
+import { Box, Divider, Flex, Heading, Image } from '@chakra-ui/react';
 import Head from 'next/head';
-import { ChampionSlash } from '../components';
+import { ChampionSlash, Lane } from '../components';
 import { useChampions } from '../hooks';
 import { ddragonServices } from '../services';
 
 export default function Home({ URL }) {
   const { champions } = useChampions();
+  const championList = Object.values(champions);
   return (
     <div>
       <Head>
         <title>Competitive Pool</title>
       </Head>
+      <Box>
+        <Heading>Top</Heading>
+        <Divider my={1} />
+        <Lane champions={championList} />
+      </Box>
       {champions && (
         <Flex wrap="wrap" justify="space-between">
-          {Object.values(champions).map((champion) => {
+          {championList.map((champion) => {
             return (
               <ChampionSlash
                 key={champion.id}
