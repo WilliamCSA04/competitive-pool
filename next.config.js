@@ -2,6 +2,9 @@
 
 const nextConfig = {
   reactStrictMode: true,
+  images: {
+    domains: [process.env.RIOT_IMAGES],
+  },
   env: {
     NEXT_PUBLIC_DDRAGON_API_BASE: process.env.NEXT_PUBLIC_DDRAGON_API_BASE,
     NEXT_PUBLIC_DDRAGON_API_CHAMPIONS:
