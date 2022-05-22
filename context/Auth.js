@@ -10,6 +10,8 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     if (!user) {
       Router.push('/login');
+    } else if (Router.asPath === '/login') {
+      Router.push('/');
     }
   }, [user]);
   return (
