@@ -20,6 +20,11 @@ const Button = {
   defaultProps: {
     colorScheme: 'brand',
   },
+  variants: {
+    invisible: {
+      bg: 'none',
+    },
+  },
 };
 
 const components = {
