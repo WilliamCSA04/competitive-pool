@@ -19,6 +19,5 @@ export function useChampions() {
     }
     getChampions();
   }, [data]);
-  console.log(champions);
   return { champions, ...res };
 }

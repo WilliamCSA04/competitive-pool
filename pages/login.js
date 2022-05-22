@@ -2,6 +2,7 @@ import { Button, Center, Heading, VStack } from '@chakra-ui/react';
 import { useState } from 'react';
 import { Card } from '../components';
 import { supabase } from '../utils';
+import { AiOutlineGithub } from 'react-icons/ai';
 
 export default function Login() {
   const [hasError, setHasError] = useState(false);
@@ -18,7 +19,9 @@ export default function Login() {
     <Center as="form" h="100%" onSubmit={onSubmit}>
       <Card as={VStack} spacing="5" maxW="300px">
         <Heading mr="auto">Login</Heading>
-        <Button type="submit">Login with github</Button>
+        <Button type="submit" colorScheme="gray" leftIcon={<AiOutlineGithub />}>
+          Login with github
+        </Button>
       </Card>
     </Center>
   );
