@@ -1,5 +1,6 @@
 import { Box, Flex, Image } from '@chakra-ui/react';
 import Head from 'next/head';
+import { ChampionSlash } from '../components';
 import { useChampions } from '../hooks';
 import { ddragonServices } from '../services';
 
@@ -14,14 +15,11 @@ export default function Home({ URL }) {
         <Flex wrap="wrap" justify="space-between">
           {Object.values(champions).map((champion) => {
             return (
-              <Box key={champion.id} m="1">
-                <Image
-                  src={`${URL.GET_LOADING}${champion.id}_0.jpg`}
-                  alt={champion.name}
-                  width={308}
-                  height={560}
-                />
-              </Box>
+              <ChampionSlash
+                key={champion.id}
+                src={`${URL.GET_LOADING}${champion.id}_0.jpg`}
+                alt={champion.name}
+              />
             );
           })}
         </Flex>
