@@ -9,8 +9,15 @@ export default function ChampionSlash({
   ...props
 }) {
   return (
-    <Box m="1" {...props}>
-      <Image src={src} alt={alt} width={width} height={height} />
+    <Box {...props}>
+      <Image
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        placeholder="blur"
+        blurDataURL={`https://via.placeholder.com/${width}x${height}?text=${alt}`}
+      />
     </Box>
   );
 }
