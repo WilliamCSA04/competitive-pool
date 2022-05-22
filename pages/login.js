@@ -5,7 +5,7 @@ import { supabase } from '../utils';
 
 export default function Login() {
   const [hasError, setHasError] = useState(false);
-  console.log(hasError);
+
   const onSubmit = (e) => {
     e.preventDefault();
     const { error } = supabase.auth.signIn({
