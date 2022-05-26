@@ -1,12 +1,21 @@
-import { Box, Divider, Flex, Heading, Image } from '@chakra-ui/react';
+import {
+  Box,
+  Divider,
+  Flex,
+  Heading,
+  Image,
+  useDisclosure,
+} from '@chakra-ui/react';
 import Head from 'next/head';
 import { ChampionSlash, Lane } from '../components';
 import { useChampions } from '../hooks';
-import { ddragonServices } from '../services';
+import { ddragonServices, supabaseService } from '../services';
 
 export default function Home({ URL }) {
   const { champions } = useChampions();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const championList = Object.values(champions);
+
   return (
     <div>
       <Head>
