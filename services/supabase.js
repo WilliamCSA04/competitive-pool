@@ -5,3 +5,7 @@ export async function insert({ toInsert = [], table }) {
   console.log('data', data);
   console.log('error', error);
 }
+
+export async function getAllFrom({ table }) {
+  return supabase.from(table).select('*');
+}
