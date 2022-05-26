@@ -7,3 +7,7 @@ export const ASSETS_PATHS = {
     SUP: '/Position_Master-Support.png',
   },
 };
+
+export const TABLES = {
+  CHAMPIONS: 'champions',
+};
