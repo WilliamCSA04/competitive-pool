@@ -34,6 +34,7 @@ export default function Home({ URL }) {
                 key={champion.id}
                 src={`${URL.GET_LOADING}${champion.id}_0.jpg`}
                 alt={champion.name}
+                champion={champion}
               />
             );
           })}
