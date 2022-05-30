@@ -6,6 +6,16 @@ export async function insert({ toInsert = [], table }) {
   console.log('error', error);
 }
 
+export async function subscribe({ table }) {
+  const championRoles = supabase
+    .from(table)
+    .on('*', (payload) => {
+      console.log('Change received!', payload);
+    })
+    .subscribe();
+  return championRoles;
+}
+
 export async function getAllFrom({ table }) {
   return supabase.from(table).select('*');
 }

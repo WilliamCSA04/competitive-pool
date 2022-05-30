@@ -18,4 +18,5 @@ export const ROLE_NUMBERS = {
 
 export const TABLES = {
   CHAMPIONS: 'champions',
+  CHAMPION_ROLES: 'champion_roles',
 };

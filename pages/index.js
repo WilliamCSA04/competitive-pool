@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import {
   Box,
   Divider,
@@ -10,11 +11,22 @@ import Head from 'next/head';
 import { ChampionSlash, Lane } from '../components';
 import { useChampions } from '../hooks';
 import { ddragonServices, supabaseService } from '../services';
+import { TABLES } from '../utils';
 
 export default function Home({ URL }) {
   const { champions } = useChampions();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const championList = Object.values(champions);
+  useEffect(() => {
+    async function a() {
+      const { data, error } = await supabaseService.subscribe({
+        table: TABLES.CHAMPION_ROLES,
+      });
+      if (error) {
+        console.error('Real time update on champion roles', error);
+      }
+    }
+  }, []);
 
   return (
     <div>
