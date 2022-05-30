@@ -8,6 +8,14 @@ export const ASSETS_PATHS = {
   },
 };
 
+export const ROLE_NUMBERS = {
+  TOP: 1,
+  JUNGLE: 2,
+  MID: 3,
+  ADC: 4,
+  SUP: 5,
+};
+
 export const TABLES = {
   CHAMPIONS: 'champions',
 };

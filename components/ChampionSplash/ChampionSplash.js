@@ -1,17 +1,23 @@
 import { Box, Button, HStack } from '@chakra-ui/react';
 import Image from 'next/image';
 import { supabaseService } from '../../services';
-import { ASSETS_PATHS, supabase } from '../../utils';
+import { ASSETS_PATHS, ROLE_NUMBERS, supabase } from '../../utils';
 
-const RoleIcon = ({ src, alt = '', onClick }) => {
+const RoleIcon = ({ src, alt = '', roleId, champion }) => {
+  const submitRole = () => {
+    supabaseService.insert({
+      toInsert: [{ champion_id: champion.decorated.id, role_id: roleId }],
+      table: 'champion_roles',
+    });
+  };
   return (
     <Button
       variant="invisible"
       filter={'grayscale(1)'}
       p={0}
       h="auto"
+      onClick={() => submitRole()}
       _hover={{ filter: 'grayscale(0)' }}
-      onClick={onClick}
     >
       <Image src={src} width={32} height={32} alt={alt} />
     </Button>
@@ -26,13 +32,6 @@ export default function ChampionSlash({
   height = 560,
   ...props
 }) {
-  const submitRole = ({ champion, roleId }) => {
-    supabaseService.insert({
-      toInsert: [{ champion_id: champion.decorated.id, role_id: roleId }],
-      table: 'champion_roles',
-    });
-  };
-
   return (
     <Box {...props} position="relative">
       <Image
@@ -53,23 +52,28 @@ export default function ChampionSlash({
       >
         <RoleIcon
           src={ASSETS_PATHS.ROLES.TOP}
-          onClick={() => submitRole({ champion, roleId: 1 })}
+          champion={champion}
+          roleId={ROLE_NUMBERS.TOP}
         />
         <RoleIcon
           src={ASSETS_PATHS.ROLES.JUNGLE}
-          onClick={() => submitRole({ champion, roleId: 2 })}
+          champion={champion}
+          roleId={ROLE_NUMBERS.JUNGLE}
         />
         <RoleIcon
           src={ASSETS_PATHS.ROLES.MID}
-          onClick={() => submitRole({ champion, roleId: 3 })}
+          champion={champion}
+          roleId={ROLE_NUMBERS.MID}
         />
         <RoleIcon
           src={ASSETS_PATHS.ROLES.ADC}
-          onClick={() => submitRole({ champion, roleId: 4 })}
+          champion={champion}
+          roleId={ROLE_NUMBERS.ADC}
         />
         <RoleIcon
           src={ASSETS_PATHS.ROLES.SUP}
-          onClick={() => submitRole({ champion, roleId: 5 })}
+          champion={champion}
+          roleId={ROLE_NUMBERS.SUP}
         />
       </HStack>
     </Box>
