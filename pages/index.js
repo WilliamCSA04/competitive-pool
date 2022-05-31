@@ -4,13 +4,36 @@ import { useEffect, useState } from 'react';
 import { ChampionSlash, Lane } from '../components';
 import { useChampions } from '../hooks';
 import { ddragonServices, supabaseService } from '../services';
-import { supabase, TABLES } from '../utils';
+import { ROLE_NUMBERS, supabase, TABLES } from '../utils';
 
 export default function Home({ URL }) {
   const { champions } = useChampions();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [topLane, setTopLane] = useState([]);
   const championList = Object.values(champions);
+
+  useEffect(() => {
+    if (!topLane.length && championList.length) {
+      async function getData() {
+        const { data } = await supabase
+          .from(TABLES.ROLES)
+          .select('champions!inner(*)')
+          .eq('id', ROLE_NUMBERS.TOP);
+        if (Array.isArray(data?.[0]?.champions)) {
+          const parsedData = data[0].champions
+            .map((champ) => {
+              return championList.find((champion) => {
+                return champ.id === champion.decorated.id;
+              });
+            })
+            .filter((u) => u);
+          setTopLane(parsedData);
+        }
+      }
+      getData();
+    }
+  }, [topLane, championList]);
+
   useEffect(() => {
     if (champions) {
       const subscription = supabase
