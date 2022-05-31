@@ -36,7 +36,7 @@ export default function Home({ URL }) {
       <Box>
         <Heading>Top</Heading>
         <Divider my={1} />
-        <Lane champions={topLane} />
+        <Lane champions={topLane} URL={URL} />
       </Box>
       {champions && (
         <Flex wrap="wrap" justify="space-between">
