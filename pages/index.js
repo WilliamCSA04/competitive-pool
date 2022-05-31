@@ -1,33 +1,33 @@
-import { useEffect } from 'react';
-import {
-  Box,
-  Divider,
-  Flex,
-  Heading,
-  Image,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { Box, Divider, Flex, Heading, useDisclosure } from '@chakra-ui/react';
 import Head from 'next/head';
+import { useEffect, useState } from 'react';
 import { ChampionSlash, Lane } from '../components';
 import { useChampions } from '../hooks';
 import { ddragonServices, supabaseService } from '../services';
-import { TABLES } from '../utils';
+import { supabase, TABLES } from '../utils';
 
 export default function Home({ URL }) {
   const { champions } = useChampions();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [topLane, setTopLane] = useState([]);
   const championList = Object.values(champions);
   useEffect(() => {
-    async function a() {
-      const { data, error } = await supabaseService.subscribe({
-        table: TABLES.CHAMPION_ROLES,
-      });
-      if (error) {
-        console.error('Real time update on champion roles', error);
-      }
+    if (champions) {
+      const subscription = supabase
+        .from(TABLES.CHAMPION_ROLES)
+        .on('*', (championRoles) => {
+          const { new: data } = championRoles;
+          const champion = championList.find(
+            (champ) => champ.decorated.id === data.champion_id
+          );
+          setTopLane([...topLane, champion]);
+        })
+        .subscribe();
+      return () => {
+        subscription.unsubscribe();
+      };
     }
-  }, []);
-
+  }, [champions, championList, topLane]);
   return (
     <div>
       <Head>
@@ -36,7 +36,7 @@ export default function Home({ URL }) {
       <Box>
         <Heading>Top</Heading>
         <Divider my={1} />
-        <Lane champions={championList} />
+        <Lane champions={topLane} />
       </Box>
       {champions && (
         <Flex wrap="wrap" justify="space-between">
