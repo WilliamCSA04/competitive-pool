@@ -1,5 +1,6 @@
 import { Button } from '@chakra-ui/react';
 import Image from 'next/image';
+import { supabaseService } from '../../services';
 import { TABLES } from '../../utils';
 
 const RoleIcon = ({ src, alt = '', roleId, champion }) => {

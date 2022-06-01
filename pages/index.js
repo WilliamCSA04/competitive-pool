@@ -11,35 +11,67 @@ import { useEffect, useState } from 'react';
 import { ChampionSlash, Lane, RoleButton } from '../components';
 import { useChampions } from '../hooks';
 import { ddragonServices, supabaseService } from '../services';
-import { ASSETS_PATHS, ROLE_NUMBERS, supabase, TABLES } from '../utils';
+import { ASSETS_PATHS, ROLE_NUMBERS, TABLES } from '../utils';
 
 export default function Home({ URL }) {
   const { champions } = useChampions();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [topLane, setTopLane] = useState([]);
+  const [jgLane, setJgLane] = useState([]);
+  const [midLane, setMidLane] = useState([]);
+  const [adcLane, setAdcLane] = useState([]);
+  const [supLane, setSupLane] = useState([]);
   const championList = Object.values(champions);
 
   useEffect(() => {
     if (!topLane.length && championList.length) {
-      async function getData() {
-        const { data } = await supabase
-          .from(TABLES.ROLES)
-          .select('champions!inner(*)')
-          .eq('id', ROLE_NUMBERS.TOP);
-        if (Array.isArray(data?.[0]?.champions)) {
-          const parsedData = data[0].champions
-            .map((champ) => {
-              return championList.find((champion) => {
-                return champ.id === champion.id;
-              });
-            })
-            .filter((u) => u);
-          setTopLane(parsedData);
-        }
-      }
-      getData();
+      supabaseService.setLaners({
+        dataHandler: (data) => setTopLane(data),
+        roleId: ROLE_NUMBERS.TOP,
+        championList: championList,
+      });
     }
   }, [topLane, championList]);
+
+  useEffect(() => {
+    if (!jgLane.length && championList.length) {
+      supabaseService.setLaners({
+        dataHandler: (data) => setJgLane(data),
+        championList: championList,
+        roleId: ROLE_NUMBERS.JUNGLE,
+      });
+    }
+  }, [jgLane, championList]);
+
+  useEffect(() => {
+    if (!midLane.length && championList.length) {
+      supabaseService.setLaners({
+        dataHandler: (data) => setMidLane(data),
+        roleId: ROLE_NUMBERS.MID,
+        championList: championList,
+      });
+    }
+  }, [midLane, championList]);
+
+  useEffect(() => {
+    if (!adcLane.length && championList.length) {
+      supabaseService.setLaners({
+        dataHandler: (data) => setAdcLane(data),
+        roleId: ROLE_NUMBERS.ADC,
+        championList: championList,
+      });
+    }
+  }, [adcLane, championList]);
+
+  useEffect(() => {
+    if (!supLane.length && championList.length) {
+      supabaseService.setLaners({
+        dataHandler: (data) => setSupLane(data),
+        roleId: ROLE_NUMBERS.SUP,
+        championList: championList,
+      });
+    }
+  }, [supLane, championList]);
 
   useEffect(() => {
     if (champions) {
@@ -67,6 +99,26 @@ export default function Home({ URL }) {
         <Heading>Top</Heading>
         <Divider my={1} />
         <Lane champions={topLane} URL={URL} />
+      </Box>
+      <Box>
+        <Heading>Jungle</Heading>
+        <Divider my={1} />
+        <Lane champions={jgLane} URL={URL} />
+      </Box>
+      <Box>
+        <Heading>Mid</Heading>
+        <Divider my={1} />
+        <Lane champions={midLane} URL={URL} />
+      </Box>
+      <Box>
+        <Heading>ADC</Heading>
+        <Divider my={1} />
+        <Lane champions={adcLane} URL={URL} />
+      </Box>
+      <Box>
+        <Heading>Sup</Heading>
+        <Divider my={1} />
+        <Lane champions={supLane} URL={URL} />
       </Box>
       {champions && (
         <Flex wrap="wrap" justify="space-between">
