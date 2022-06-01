@@ -6,7 +6,7 @@ import { ASSETS_PATHS, ROLE_NUMBERS, supabase } from '../../utils';
 const RoleIcon = ({ src, alt = '', roleId, champion }) => {
   const submitRole = () => {
     supabaseService.insert({
-      toInsert: [{ champion_id: champion.decorated.id, role_id: roleId }],
+      toInsert: [{ champion_id: champion.id, role_id: roleId }],
       table: 'champion_roles',
     });
   };

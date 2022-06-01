@@ -14,7 +14,7 @@ export default function Lane({ champions = [], onClick, URL }) {
         <WrapItem key={champion.id}>
           <ChampionSlash
             key={champion.id}
-            src={`${URL.GET_LOADING}${champion.id}_0.jpg`}
+            src={`${URL.GET_LOADING}${champion.riot_id}_0.jpg`}
             alt={champion.name}
             champion={champion}
           />

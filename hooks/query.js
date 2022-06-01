@@ -24,12 +24,23 @@ export function useChampions() {
         if (error) {
           new Error(error);
         }
-        Object.values(champions).forEach((c) => {
-          c.decorated = championsData.find(
-            (champion) => champion.riot_id === c.id
-          );
-        });
-        setChampions(champions);
+        const decoratedChampions = Object.values(champions).reduce((acc, c) => {
+          const championFromDB = championsData.find((champ) => {
+            return champ.riot_id === c.id;
+          });
+          if (!championFromDB) {
+            console.warn(`Champion ${c.name} was not found on DB`);
+            return acc;
+          }
+          return {
+            ...acc,
+            [championFromDB.riot_id]: {
+              ...c,
+              ...championFromDB,
+            },
+          };
+        }, {});
+        setChampions(decoratedChampions);
       } catch {
         setChampions({});
       }

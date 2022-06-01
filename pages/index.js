@@ -23,7 +23,7 @@ export default function Home({ URL }) {
           const parsedData = data[0].champions
             .map((champ) => {
               return championList.find((champion) => {
-                return champ.id === champion.decorated.id;
+                return champ.id === champion.id;
               });
             })
             .filter((u) => u);
@@ -41,7 +41,7 @@ export default function Home({ URL }) {
         .on('*', (championRoles) => {
           const { new: data } = championRoles;
           const champion = championList.find(
-            (champ) => champ.decorated.id === data.champion_id
+            (champ) => champ.id === data.champion_id
           );
           setTopLane([...topLane, champion]);
         })
@@ -67,7 +67,7 @@ export default function Home({ URL }) {
             return (
               <ChampionSlash
                 key={champion.id}
-                src={`${URL.GET_LOADING}${champion.id}_0.jpg`}
+                src={`${URL.GET_LOADING}${champion.riot_id}_0.jpg`}
                 alt={champion.name}
                 champion={champion}
               />
