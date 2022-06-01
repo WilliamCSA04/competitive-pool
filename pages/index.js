@@ -36,16 +36,16 @@ export default function Home({ URL }) {
 
   useEffect(() => {
     if (champions) {
-      const subscription = supabase
-        .from(TABLES.CHAMPION_ROLES)
-        .on('*', (championRoles) => {
+      const subscription = supabaseService.subscribe({
+        table: TABLES.CHAMPION_ROLES,
+        onFn: (championRoles) => {
           const { new: data } = championRoles;
           const champion = championList.find(
             (champ) => champ.id === data.champion_id
           );
           setTopLane([...topLane, champion]);
-        })
-        .subscribe();
+        },
+      });
       return () => {
         subscription.unsubscribe();
       };
