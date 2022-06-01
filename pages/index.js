@@ -82,14 +82,23 @@ export default function Home({ URL }) {
           const champion = championList.find(
             (champ) => champ.id === data.champion_id
           );
-          setTopLane([...topLane, champion]);
+          if (data.role_id === ROLE_NUMBERS.TOP) {
+            setTopLane([...topLane, champion]);
+          } else if (data.role_id === ROLE_NUMBERS.JUNGLE) {
+            setJgLane([...jgLane, champion]);
+          } else if (data.role_id === ROLE_NUMBERS.MID) {
+            setMidLane([...midLane, champion]);
+          } else if (data.role_id === ROLE_NUMBERS.ADC) {
+            setMidLane([...adcLane, champion]);
+          } else if (data.role_id === ROLE_NUMBERS.SUP)
+            setMidLane([...supLane, champion]);
         },
       });
       return () => {
         subscription.unsubscribe();
       };
     }
-  }, [champions, championList, topLane]);
+  }, [champions, championList, topLane, jgLane, midLane, adcLane, supLane]);
   return (
     <div>
       <Head>

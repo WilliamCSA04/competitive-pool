@@ -15,7 +15,7 @@ export function subscribe({ table, onFn, on = '*' }) {
 export async function setLaners({ dataHandler, championList, roleId }) {
   const { data } = await supabase
     .from(TABLES.ROLES)
-    .select('champions!inner(*)')
+    .select('*, champions!inner(*)')
     .eq('id', roleId);
   if (Array.isArray(data?.[0]?.champions)) {
     const parsedData = data[0].champions
