@@ -9,7 +9,7 @@ import {
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import { ChampionSlash, Lane, RoleButton } from '../components';
-import { useChampions } from '../hooks';
+import { useChampions, useLane } from '../hooks';
 import { ddragonServices, supabaseService } from '../services';
 import { ASSETS_PATHS, ROLE_NUMBERS, TABLES } from '../utils';
 
@@ -23,55 +23,40 @@ export default function Home({ URL }) {
   const [supLane, setSupLane] = useState([]);
   const championList = Object.values(champions);
 
-  useEffect(() => {
-    if (!topLane.length && championList.length) {
-      supabaseService.setLaners({
-        dataHandler: (data) => setTopLane(data),
-        roleId: ROLE_NUMBERS.TOP,
-        championList: championList,
-      });
-    }
-  }, [topLane, championList]);
+  useLane({
+    lane: topLane,
+    dataHandler: (data) => setTopLane(data),
+    roleId: ROLE_NUMBERS.TOP,
+    championList: championList,
+  });
 
-  useEffect(() => {
-    if (!jgLane.length && championList.length) {
-      supabaseService.setLaners({
-        dataHandler: (data) => setJgLane(data),
-        championList: championList,
-        roleId: ROLE_NUMBERS.JUNGLE,
-      });
-    }
-  }, [jgLane, championList]);
+  useLane({
+    lane: jgLane,
+    dataHandler: (data) => setJgLane(data),
+    roleId: ROLE_NUMBERS.JUNGLE,
+    championList: championList,
+  });
 
-  useEffect(() => {
-    if (!midLane.length && championList.length) {
-      supabaseService.setLaners({
-        dataHandler: (data) => setMidLane(data),
-        roleId: ROLE_NUMBERS.MID,
-        championList: championList,
-      });
-    }
-  }, [midLane, championList]);
+  useLane({
+    lane: midLane,
+    dataHandler: (data) => setMidLane(data),
+    roleId: ROLE_NUMBERS.MID,
+    championList: championList,
+  });
 
-  useEffect(() => {
-    if (!adcLane.length && championList.length) {
-      supabaseService.setLaners({
-        dataHandler: (data) => setAdcLane(data),
-        roleId: ROLE_NUMBERS.ADC,
-        championList: championList,
-      });
-    }
-  }, [adcLane, championList]);
+  useLane({
+    lane: adcLane,
+    dataHandler: (data) => setAdcLane(data),
+    roleId: ROLE_NUMBERS.ADC,
+    championList: championList,
+  });
 
-  useEffect(() => {
-    if (!supLane.length && championList.length) {
-      supabaseService.setLaners({
-        dataHandler: (data) => setSupLane(data),
-        roleId: ROLE_NUMBERS.SUP,
-        championList: championList,
-      });
-    }
-  }, [supLane, championList]);
+  useLane({
+    lane: supLane,
+    dataHandler: (data) => setSupLane(data),
+    roleId: ROLE_NUMBERS.SUP,
+    championList: championList,
+  });
 
   useEffect(() => {
     if (champions) {
