@@ -1,10 +1,17 @@
-import { Box, Divider, Flex, Heading, useDisclosure } from '@chakra-ui/react';
+import {
+  Box,
+  Divider,
+  Flex,
+  Heading,
+  HStack,
+  useDisclosure,
+} from '@chakra-ui/react';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
-import { ChampionSlash, Lane } from '../components';
+import { ChampionSlash, Lane, RoleButton } from '../components';
 import { useChampions } from '../hooks';
 import { ddragonServices, supabaseService } from '../services';
-import { ROLE_NUMBERS, supabase, TABLES } from '../utils';
+import { ASSETS_PATHS, ROLE_NUMBERS, supabase, TABLES } from '../utils';
 
 export default function Home({ URL }) {
   const { champions } = useChampions();
@@ -70,7 +77,42 @@ export default function Home({ URL }) {
                 src={`${URL.GET_LOADING}${champion.riot_id}_0.jpg`}
                 alt={champion.name}
                 champion={champion}
-              />
+              >
+                <HStack
+                  spacing={1}
+                  position="absolute"
+                  zIndex={1}
+                  bottom={8}
+                  left="50%"
+                  transform="translateX(-50%)"
+                >
+                  <RoleButton
+                    src={ASSETS_PATHS.ROLES.TOP}
+                    champion={champion}
+                    roleId={ROLE_NUMBERS.TOP}
+                  />
+                  <RoleButton
+                    src={ASSETS_PATHS.ROLES.JUNGLE}
+                    champion={champion}
+                    roleId={ROLE_NUMBERS.JUNGLE}
+                  />
+                  <RoleButton
+                    src={ASSETS_PATHS.ROLES.MID}
+                    champion={champion}
+                    roleId={ROLE_NUMBERS.MID}
+                  />
+                  <RoleButton
+                    src={ASSETS_PATHS.ROLES.ADC}
+                    champion={champion}
+                    roleId={ROLE_NUMBERS.ADC}
+                  />
+                  <RoleButton
+                    src={ASSETS_PATHS.ROLES.SUP}
+                    champion={champion}
+                    roleId={ROLE_NUMBERS.SUP}
+                  />
+                </HStack>
+              </ChampionSlash>
             );
           })}
         </Flex>
