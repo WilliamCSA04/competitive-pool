@@ -9,9 +9,19 @@ import {
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import { ChampionSlash, Lane, RoleButton } from '../components';
-import { useChampions, useLane } from '../hooks';
+import { useChampions, useLane, useLoadingLaner } from '../hooks';
 import { ddragonServices, supabaseService } from '../services';
 import { ASSETS_PATHS, ROLE_NUMBERS, TABLES } from '../utils';
+
+const LaneWrapper = ({ champions, URL, isLoadingChamp, lane }) => {
+  return (
+    <Box>
+      <Heading>{lane}</Heading>
+      <Divider my={1} />
+      <Lane champions={champions} URL={URL} isLoadingChamp={isLoadingChamp} />
+    </Box>
+  );
+};
 
 export default function Home({ URL }) {
   const { champions } = useChampions();
@@ -21,6 +31,9 @@ export default function Home({ URL }) {
   const [midLane, setMidLane] = useState([]);
   const [adcLane, setAdcLane] = useState([]);
   const [supLane, setSupLane] = useState([]);
+  const [isLoadingChamp, setIsLoadingChamp] = useState(false);
+  const { STATES_ACTIONS, state, dispatch } = useLoadingLaner();
+
   const championList = Object.values(champions);
 
   useLane({
@@ -83,37 +96,43 @@ export default function Home({ URL }) {
         subscription.unsubscribe();
       };
     }
-  }, [champions, championList, topLane, jgLane, midLane, adcLane, supLane]);
+  }, [champions, topLane, jgLane, midLane, adcLane, supLane, championList]);
   return (
     <div>
       <Head>
         <title>Competitive Pool</title>
       </Head>
-      <Box>
-        <Heading>Top</Heading>
-        <Divider my={1} />
-        <Lane champions={topLane} URL={URL} />
-      </Box>
-      <Box>
-        <Heading>Jungle</Heading>
-        <Divider my={1} />
-        <Lane champions={jgLane} URL={URL} />
-      </Box>
-      <Box>
-        <Heading>Mid</Heading>
-        <Divider my={1} />
-        <Lane champions={midLane} URL={URL} />
-      </Box>
-      <Box>
-        <Heading>ADC</Heading>
-        <Divider my={1} />
-        <Lane champions={adcLane} URL={URL} />
-      </Box>
-      <Box>
-        <Heading>Sup</Heading>
-        <Divider my={1} />
-        <Lane champions={supLane} URL={URL} />
-      </Box>
+      <LaneWrapper
+        lane="Top"
+        champions={topLane}
+        URL={URL}
+        isLoadingChamp={state[STATES_ACTIONS]}
+      />
+      <LaneWrapper
+        lane="Jungle"
+        champions={jgLane}
+        URL={URL}
+        isLoadingChamp={isLoadingChamp}
+      />
+      <LaneWrapper
+        lane="Mid"
+        champions={midLane}
+        URL={URL}
+        isLoadingChamp={isLoadingChamp}
+      />
+      <LaneWrapper
+        lane="ADC"
+        champions={adcLane}
+        URL={URL}
+        isLoadingChamp={isLoadingChamp}
+      />
+      <LaneWrapper
+        lane="Sup"
+        champions={supLane}
+        URL={URL}
+        isLoadingChamp={isLoadingChamp}
+      />
+
       {champions && (
         <Flex wrap="wrap" justify="space-between">
           {championList.map((champion) => {
