@@ -8,6 +8,7 @@ import {
 } from '@chakra-ui/react';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { ChampionSlash, Lane, RoleButton } from '../components';
 import { useChampions, useLane, useLoadingLaner } from '../hooks';
 import { ddragonServices, supabaseService } from '../services';
@@ -32,8 +33,8 @@ export default function Home({ URL }) {
   const [adcLane, setAdcLane] = useState([]);
   const [supLane, setSupLane] = useState([]);
   const [isLoadingChamp, setIsLoadingChamp] = useState(false);
-  const { STATES_ACTIONS, state, dispatch } = useLoadingLaner();
-
+  const { topLoader, midLoader, jungleLoader, adcLoader, supLoader } =
+    useSelector((state) => state.loader);
   const championList = Object.values(champions);
 
   useLane({
@@ -106,31 +107,31 @@ export default function Home({ URL }) {
         lane="Top"
         champions={topLane}
         URL={URL}
-        isLoadingChamp={state[STATES_ACTIONS]}
+        isLoadingChamp={topLoader}
       />
       <LaneWrapper
         lane="Jungle"
         champions={jgLane}
         URL={URL}
-        isLoadingChamp={isLoadingChamp}
+        isLoadingChamp={jungleLoader}
       />
       <LaneWrapper
         lane="Mid"
         champions={midLane}
         URL={URL}
-        isLoadingChamp={isLoadingChamp}
+        isLoadingChamp={midLoader}
       />
       <LaneWrapper
         lane="ADC"
         champions={adcLane}
         URL={URL}
-        isLoadingChamp={isLoadingChamp}
+        isLoadingChamp={adcLoader}
       />
       <LaneWrapper
         lane="Sup"
         champions={supLane}
         URL={URL}
-        isLoadingChamp={isLoadingChamp}
+        isLoadingChamp={supLoader}
       />
 
       {champions && (
