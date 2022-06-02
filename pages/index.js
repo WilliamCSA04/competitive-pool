@@ -1,11 +1,4 @@
-import {
-  Box,
-  Divider,
-  Flex,
-  Heading,
-  HStack,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { Box, Divider, Flex, Heading, HStack } from '@chakra-ui/react';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -26,13 +19,11 @@ const LaneWrapper = ({ champions, URL, isLoadingChamp, lane }) => {
 
 export default function Home({ URL }) {
   const { champions } = useChampions();
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [topLane, setTopLane] = useState([]);
   const [jgLane, setJgLane] = useState([]);
   const [midLane, setMidLane] = useState([]);
   const [adcLane, setAdcLane] = useState([]);
   const [supLane, setSupLane] = useState([]);
-  const [isLoadingChamp, setIsLoadingChamp] = useState(false);
   const { topLoader, midLoader, jungleLoader, adcLoader, supLoader } =
     useSelector((state) => state.loader);
   const championList = Object.values(champions);
