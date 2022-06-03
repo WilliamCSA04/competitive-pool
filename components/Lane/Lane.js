@@ -8,7 +8,6 @@ const Centralize = ({ children }) => (
 );
 
 export default function Lane({ champions = [], URL, isLoadingChamp }) {
-  console.log('isLoadingChamp', isLoadingChamp);
   return (
     <Wrap>
       {champions.map((champion) => (
