@@ -11,10 +11,10 @@ export const loaderSlice = createSlice({
   },
   reducers: {
     load: (state, action) => {
-      state[action] += 1;
+      state[action.payload] += 1;
     },
     unload: (state, action) => {
-      state[action] -= 1;
+      state[action.payload] -= 1;
     },
   },
 });
