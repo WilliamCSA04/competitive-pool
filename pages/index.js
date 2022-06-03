@@ -1,9 +1,10 @@
 import { Box, Divider, Flex, Heading, HStack } from '@chakra-ui/react';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ChampionSlash, Lane, RoleButton } from '../components';
-import { useChampions, useLane, useLoadingLaner } from '../hooks';
+import { useChampions, useLane } from '../hooks';
+import { actions } from '../reducers';
 import { ddragonServices, supabaseService } from '../services';
 import { ASSETS_PATHS, ROLE_NUMBERS, TABLES } from '../utils';
 
@@ -26,8 +27,9 @@ export default function Home({ URL }) {
   const [supLane, setSupLane] = useState([]);
   const { topLoader, midLoader, jungleLoader, adcLoader, supLoader } =
     useSelector((state) => state.loader);
+  const loaderDispatch = useDispatch();
   const championList = Object.values(champions);
-
+  console.log(topLoader);
   useLane({
     lane: topLane,
     dataHandler: (data) => setTopLane(data),
@@ -147,6 +149,9 @@ export default function Home({ URL }) {
                     src={ASSETS_PATHS.ROLES.TOP}
                     champion={champion}
                     roleId={ROLE_NUMBERS.TOP}
+                    onClick={() => {
+                      loaderDispatch(actions.loader.load('topLoader'));
+                    }}
                   />
                   <RoleButton
                     src={ASSETS_PATHS.ROLES.JUNGLE}
