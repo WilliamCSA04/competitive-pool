@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ChampionSlash, Lane, RoleButton } from '../components';
 import { useChampions, useLane } from '../hooks';
-import { actions } from '../reducers';
+import { actions, keys } from '../reducers';
 import { ddragonServices, supabaseService } from '../services';
 import { ASSETS_PATHS, ROLE_NUMBERS, TABLES } from '../utils';
 
@@ -29,7 +29,6 @@ export default function Home({ URL }) {
     useSelector((state) => state.loader);
   const loaderDispatch = useDispatch();
   const championList = Object.values(champions);
-  console.log(topLoader);
   useLane({
     lane: topLane,
     dataHandler: (data) => setTopLane(data),
@@ -75,15 +74,20 @@ export default function Home({ URL }) {
             (champ) => champ.id === data.champion_id
           );
           if (data.role_id === ROLE_NUMBERS.TOP) {
+            actions.loader.unload(keys.loader.TOP_LOADER);
             setTopLane([...topLane, champion]);
           } else if (data.role_id === ROLE_NUMBERS.JUNGLE) {
+            actions.loader.unload(keys.loader.JUNGLE_LOADER);
             setJgLane([...jgLane, champion]);
           } else if (data.role_id === ROLE_NUMBERS.MID) {
+            actions.loader.unload(keys.loader.MID_LOADER);
             setMidLane([...midLane, champion]);
           } else if (data.role_id === ROLE_NUMBERS.ADC) {
+            actions.loader.unload(keys.loader.ADC_LOADER);
             setMidLane([...adcLane, champion]);
           } else if (data.role_id === ROLE_NUMBERS.SUP)
-            setMidLane([...supLane, champion]);
+            actions.loader.unload(keys.loader.SUP_LOADER);
+          setMidLane([...supLane, champion]);
         },
       });
       return () => {
@@ -91,6 +95,14 @@ export default function Home({ URL }) {
       };
     }
   }, [champions, topLane, jgLane, midLane, adcLane, supLane, championList]);
+
+  const handleClick = (action) => {
+    return (submitFn) => {
+      loaderDispatch(actions.loader.load(action));
+      submitFn().catch(() => loaderDispatch(actions.loader.unload(action)));
+    };
+  };
+
   return (
     <div>
       <Head>
@@ -149,29 +161,31 @@ export default function Home({ URL }) {
                     src={ASSETS_PATHS.ROLES.TOP}
                     champion={champion}
                     roleId={ROLE_NUMBERS.TOP}
-                    onClick={() => {
-                      loaderDispatch(actions.loader.load('topLoader'));
-                    }}
+                    onClick={() => handleClick(keys.loader.TOP_LOADER)}
                   />
                   <RoleButton
                     src={ASSETS_PATHS.ROLES.JUNGLE}
                     champion={champion}
                     roleId={ROLE_NUMBERS.JUNGLE}
+                    onClick={() => handleClick(keys.loader.JUNGLE_LOADER)}
                   />
                   <RoleButton
                     src={ASSETS_PATHS.ROLES.MID}
                     champion={champion}
                     roleId={ROLE_NUMBERS.MID}
+                    onClick={() => handleClick(keys.loader.MID_LOADER)}
                   />
                   <RoleButton
                     src={ASSETS_PATHS.ROLES.ADC}
                     champion={champion}
                     roleId={ROLE_NUMBERS.ADC}
+                    onClick={() => handleClick(keys.loader.ADC_LOADER)}
                   />
                   <RoleButton
                     src={ASSETS_PATHS.ROLES.SUP}
                     champion={champion}
                     roleId={ROLE_NUMBERS.SUP}
+                    onClick={() => handleClick(keys.loader.SUP_LOADER)}
                   />
                 </HStack>
               </ChampionSlash>

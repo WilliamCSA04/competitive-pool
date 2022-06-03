@@ -4,11 +4,12 @@ import { supabaseService } from '../../services';
 import { TABLES } from '../../utils';
 
 const RoleIcon = ({ src, alt = '', roleId, champion, onClick }) => {
-  const submitRole = () => {
-    supabaseService.insert({
+  const submitRole = async () => {
+    const { error } = await supabaseService.insert({
       toInsert: [{ champion_id: champion.id, role_id: roleId }],
       table: TABLES.CHAMPION_ROLES,
     });
+    if (error) throw new Error();
   };
   return (
     <Button
@@ -17,8 +18,8 @@ const RoleIcon = ({ src, alt = '', roleId, champion, onClick }) => {
       p={0}
       h="auto"
       onClick={() => {
-        if (typeof onClick === 'function') onClick();
-        submitRole();
+        if (typeof onClick === 'function') onClick()(submitRole);
+        else submitRole();
       }}
       _hover={{ filter: 'grayscale(0)' }}
     >

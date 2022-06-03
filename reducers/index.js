@@ -1,4 +1,4 @@
-import loaderReducer, { load, unload } from './loader';
+import loaderReducer, { load, unload, LOADER_KEYS } from './loader';
 import championReducer, { setChampions } from './champion';
 
 export const reducers = {
@@ -9,4 +9,8 @@ export const reducers = {
 export const actions = {
   loader: { load, unload },
   champion: { setChampions },
+};
+
+export const keys = {
+  loader: LOADER_KEYS,
 };

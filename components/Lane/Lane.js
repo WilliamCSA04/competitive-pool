@@ -1,4 +1,4 @@
-import { Center, Wrap, WrapItem } from '@chakra-ui/react';
+import { Center, Spinner, Wrap, WrapItem } from '@chakra-ui/react';
 import { ChampionSlash } from '../ChampionSplash';
 
 const Centralize = ({ children }) => (
@@ -7,7 +7,8 @@ const Centralize = ({ children }) => (
   </Center>
 );
 
-export default function Lane({ champions = [], onClick, URL }) {
+export default function Lane({ champions = [], URL, isLoadingChamp }) {
+  console.log('isLoadingChamp', isLoadingChamp);
   return (
     <Wrap>
       {champions.map((champion) => (
@@ -20,6 +21,11 @@ export default function Lane({ champions = [], onClick, URL }) {
           />
         </WrapItem>
       ))}
+      {!!isLoadingChamp && (
+        <WrapItem>
+          <Spinner />
+        </WrapItem>
+      )}
     </Wrap>
   );
 }
